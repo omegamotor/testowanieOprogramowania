@@ -1,8 +1,10 @@
+from django.template.loader import render_to_string
 from django.test import TestCase
-from views import home_page
-
+from DjangoApp.views import home_page
 from django.urls import resolve
-from django.http import HttpRequest
+
+
+
 
 
 class HomePageTest(TestCase):
@@ -12,10 +14,13 @@ class HomePageTest(TestCase):
         self.assertEqual(found.func, home_page)
 
     def test_view(self):
-        request = HttpRequest()
-        response = home_page(request)
+        response = self.client.get('http://localhost:8000')
         html = response.content.decode('utf8')
-
         self.assertTrue(html.startswith('<html>'))
-        self.assertIn('<title>To-Do lists</title>', html)
+        self.assertIn('<title>Lista rzeczy do zrobienia</title>', html)
         self.assertTrue(html.endswith('</html>'))
+        self.assertTemplateUsed(response, 'DjangoApp/home.html')
+
+    def test_post(self):
+        response = self.client.post('/', data={'item_text': 'A new list item'})
+        self.assertIn('A new list item', response.content.decode())

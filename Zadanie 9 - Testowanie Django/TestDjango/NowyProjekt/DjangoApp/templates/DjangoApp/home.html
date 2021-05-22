@@ -1,0 +1,15 @@
+<html>
+    <title>Lista rzeczy do zrobienia</title>
+    <body>
+        <h1>h1</h1>
+        <form method="POST">
+            <input type="text" placeholder="Enter a to-do item" id="id_new_item" name="item_text"><br>
+            {% csrf_token %}
+        </form>
+        <table id="id_list_table">
+            <tr>
+                <th>1: {{ new_item_text }}</th>
+            </tr>
+        </table>
+    </body>
+</html>
